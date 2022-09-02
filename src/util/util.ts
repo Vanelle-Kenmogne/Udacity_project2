@@ -1,6 +1,5 @@
 import fs from "fs";
-import Jimp = require("jimp");
-
+import Jimp from "jimp";
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
 // returns the absolute path to the local image
@@ -26,7 +25,6 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
     }
   });
 }
-
 // deleteLocalFiles
 // helper function to delete files on the local disk
 // useful to cleanup after tasks
