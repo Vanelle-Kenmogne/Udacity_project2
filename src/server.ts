@@ -1,4 +1,5 @@
 import express from 'express';
+import {Request, Response} from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -28,13 +29,32 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
+  app.get( "/filteredimage", async ( req: Request, res: Response ) => {
+    
+    const {image_url} = req.query;
+    const image_path = await filterImageFromURL(image_url);
+    if (!image_path) {
+      return res.status (400)
+                .send('Missing image');
+    }
+     return res.status(200)
+               .sendFile(image_path, () => {
+      deleteLocalFiles([image_path]);
+    });
+
+  //  res.send("try GET /filteredimage?image_url={{}}")
+  } );
+  
+
+  
+
 
   //! END @TODO1
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+  app.get( "/", async ( req:Request, res:Response ) => {
+    res.send("Welcome to vanelle Udacity project2. try GET /filteredimage?image_url={{}}")
   } );
   
 
